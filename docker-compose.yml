@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: "postgresql://user:password@db:5432/mydatabase"
+      SECRET_KEY: "075e55c0d79f978d6e19f6d5dbd6cfc7934e4d64cea0e1c3869b6f605bb2e3f6"
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
